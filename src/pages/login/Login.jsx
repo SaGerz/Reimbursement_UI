@@ -1,11 +1,48 @@
 import React, { useState } from 'react'
+import api from '../../api/axios';
+import { auth } from '../../auth/AuthContext' 
+import { useNavigate } from 'react-router-dom';
 
 const Login = () =>  {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false);
+    const { login } = auth();
+    const navigate = useNavigate();
 
-    console.log(email);
-    console.log(password);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
+        setLoading(true);
+        
+        try {
+            const res = await api.post('/Auth/login', {
+                email,
+                password
+            })
+
+            login(res.data);
+
+            switch (res.data.role) {
+                case "Employee":
+                navigate("/employee/dashboard");
+                break;
+                case "Manager":
+                navigate("/manager/dashboard");
+                break;
+                case "Finance":
+                navigate("/finance/dashboard");
+                break;
+                default:
+                navigate("/");
+            }
+        } catch (err) {
+            setError("Email atau Password salah!");
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <div className='min-h-screen flex items-center justify-center bg-gray-100' >
@@ -13,8 +50,14 @@ const Login = () =>  {
                 <h1 className='text-2xl font-bold text-center mb-6'>
                     Reimburstment System
                 </h1>
+               
+                {error && (
+                    <div className="bg-red-100 text-red-600 p-3 rounded mb-4 text-sm">
+                        {error}
+                    </div>
+                )}
 
-                <form className='space-y-4'>
+                <form onSubmit={handleSubmit} className='space-y-4'>
                     <div>
                         <label className='block text-sm font-medium mb-1'>Email</label>
                         <input 
@@ -36,9 +79,10 @@ const Login = () =>  {
 
                     <button 
                         type='submit'
+                        disabled={loading}
                         className='w-full p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 cursor-pointer'
                     >
-                        Login
+                        {loading ? "Signin in..." : "Login"}
                     </button>
                 </form>
             </div>
