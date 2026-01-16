@@ -21,7 +21,7 @@ export const AuthProvider = ({children}) => {
 
     const login  = (data) => {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.rolen);
+        localStorage.setItem("role", data.role);
         localStorage.setItem("fullName", data.fullName);
         localStorage.setItem("expiresAt", data.expiresAt);
         
