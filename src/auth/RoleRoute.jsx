@@ -6,7 +6,7 @@ const RoleRoute = ({ allowedRole, children }) => {
 
     if(user.role !== allowedRole)
     {
-        <Navigate to="/unauthorized" replace />   
+        return <Navigate to="/unauthorized" replace />   
     } 
 
     return children;
