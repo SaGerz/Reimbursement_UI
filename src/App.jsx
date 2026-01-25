@@ -9,10 +9,14 @@ import ProtectedRoute from './auth/ProtectedRoute'
 import RoleRoute from './auth/RoleRoute'
 import EmployeeLayout from './layouts/EmployeeLayout'
 import FinanceLayout from './layouts/FinanceLayout'
+import Rootredirect from './routes/Rootredirect'
 
 function App() {
   return (
     <Routes>
+      {/* Root */}
+      <Route path='/' element={<Rootredirect />} />
+
       {/* Public */}
       <Route path='/login' element={ <Login /> } />
       <Route path="/unauthorized" element={<Unauthorized />} />
@@ -42,7 +46,7 @@ function App() {
       />
 
       {/* default */}
-      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }
