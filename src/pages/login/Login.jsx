@@ -25,20 +25,6 @@ const Login = () =>  {
 
             login(res.data);
 
-            // switch (res.data.role) {
-            //     case "Employee":
-            //     navigate("/employee/dashboard");
-            //     break;
-            //     case "Manager":
-            //     navigate("/manager/dashboard");
-            //     break;
-            //     case "Finance":
-            //     navigate("/finance/dashboard");
-            //     break;
-            //     default:
-            //     navigate("/");
-            // }
-
             navigate(redirectByrole(res.data.role));
 
         } catch (err) {
