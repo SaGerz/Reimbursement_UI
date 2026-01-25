@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import api from '../../api/axios';
 import { auth } from '../../auth/AuthContext' 
 import { useNavigate } from 'react-router-dom';
+import { redirectByrole } from '../../utils/redirectByRole.js';
 
 const Login = () =>  {
     const [email, setEmail] = useState("");
@@ -24,19 +25,8 @@ const Login = () =>  {
 
             login(res.data);
 
-            switch (res.data.role) {
-                case "Employee":
-                navigate("/employee/dashboard");
-                break;
-                case "Manager":
-                navigate("/manager/dashboard");
-                break;
-                case "Finance":
-                navigate("/finance/dashboard");
-                break;
-                default:
-                navigate("/");
-            }
+            navigate(redirectByrole(res.data.role));
+
         } catch (err) {
             setError("Email atau Password salah!");
         } finally {
