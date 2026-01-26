@@ -10,42 +10,50 @@ import RoleRoute from './auth/RoleRoute'
 import EmployeeLayout from './layouts/EmployeeLayout'
 import FinanceLayout from './layouts/FinanceLayout'
 import Rootredirect from './routes/Rootredirect'
+import CreateReimbursement from './pages/employee/CreateReimburstment'
+import EmployeeDashboard from './pages/employee/EmployeeDashboard'
+import ReimbursementList from './pages/employee/ReimburstmentList'
 
 function App() {
   return (
     <Routes>
       {/* Root */}
-      <Route path='/' element={<Rootredirect />} />
+      <Route path="/" element={<Rootredirect />} />
 
       {/* Public */}
-      <Route path='/login' element={ <Login /> } />
+      <Route path="/login" element={<Login />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
 
       {/* Employee */}
       <Route
-        path='/employee/dashboard'
+        path="/employee"
         element={
           <ProtectedRoute>
-            <RoleRoute allowedRole="Employee" >
+            <RoleRoute allowedRole="Employee">
               <EmployeeLayout />
             </RoleRoute>
           </ProtectedRoute>
         }
-      />
-      
+      >
+        {/* 🔥 NESTED DI SINI */}
+        <Route path="dashboard" element={<EmployeeDashboard />} />
+        <Route path="reimburstment" element={<ReimbursementList />} />
+        <Route path="reimburstment/new" element={<CreateReimbursement />} />
+      </Route>
+
       {/* Finance */}
       <Route
-        path='/finance/dashboard'
+        path="/finance"
         element={
           <ProtectedRoute>
-            <RoleRoute allowedRole="Finance" >
+            <RoleRoute allowedRole="Finance">
               <FinanceLayout />
             </RoleRoute>
           </ProtectedRoute>
         }
       />
 
-      {/* default */}
+      {/* fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
