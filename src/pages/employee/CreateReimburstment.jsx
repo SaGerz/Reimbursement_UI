@@ -1,5 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../api/axios";
 const CreateReimbursement = () => {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const [form, setForm] = useState({
         expenseDate: "",
         amount: "",
@@ -18,9 +23,31 @@ const CreateReimbursement = () => {
         }));
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(form)
+        setLoading(true); 
+
+        try {
+            const formData = new FormData();
+
+            formData.append("ExpenseDate", form.expenseDate);
+            formData.append("Amount", form.amount);
+            formData.append("CategoryId", form.categoryId);
+            formData.append("Description", form.description);
+
+            if(form.receipt)
+            {
+                formData.append("ReceiptAttachment", form.receipt);
+            }
+
+            await api.post("/Reimburstment", formData);
+            navigate("/employee/reimburstment");
+
+        } catch (error) {
+            setError("Gagal submit data!");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -69,8 +96,8 @@ const CreateReimbursement = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded" >
-                    Submit
+                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer" >
+                    {loading ? "Submiting..." : "Submit"}
                 </button>
             </form>
         </div>
