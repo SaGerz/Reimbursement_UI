@@ -13,6 +13,7 @@ import Rootredirect from './routes/Rootredirect'
 import CreateReimbursement from './pages/employee/CreateReimburstment'
 import EmployeeDashboard from './pages/employee/EmployeeDashboard'
 import ReimbursementList from './pages/employee/ReimburstmentList'
+import ReimburstmentListDetail from './pages/employee/ReimburstmentListDetail'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         {/* 🔥 NESTED DI SINI */}
         <Route path="dashboard" element={<EmployeeDashboard />} />
         <Route path="reimburstment" element={<ReimbursementList />} />
+        <Route path="reimburstment/:id" element={<ReimburstmentListDetail />} />
         <Route path="reimburstment/new" element={<CreateReimbursement />} />
       </Route>
 

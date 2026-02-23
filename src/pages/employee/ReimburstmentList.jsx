@@ -55,10 +55,10 @@ const ReimbursementList = () => {
               data.map((item) => (
                 <tr
                   key={item.reimbursementId}
-                  className="border-t hover:bg-gray-50 cursor-pointer"
-                  // onClick={
-                  //   navigate(`/employee/reimbursements/${item.reimbursementId}`)
-                  // }
+                  className="border-t hover:bg-gray-100 cursor-pointer"
+                  onClick={() => 
+                    navigate(`/employee/reimburstment/${item.reimbursementId}`)
+                  }
                 >
                   <td className="p-2">
                     {formatHelper.formatDate(item.expenseDate || item.expeseDate)}
