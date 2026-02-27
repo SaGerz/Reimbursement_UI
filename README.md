@@ -1,16 +1,125 @@
-# React + Vite
+# 💰 Reimbursement Management System (UI)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend (UI) untuk sistem **Reimbursement Management** dengan multi-role workflow.  
+Project ini berfokus pada pembuatan antarmuka pengguna untuk mempermudah proses pengajuan, persetujuan, dan pembayaran reimbursement di dalam perusahaan.
 
-Currently, two official plugins are available:
+API backend sudah tersedia, dan UI saat ini sedang dalam tahap pengembangan.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🎯 Project Overview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Sistem ini memiliki **3 role utama** dengan alur proses sebagai berikut:
 
-## Expanding the ESLint configuration
+1. **Employee** mengajukan reimbursement  
+2. **Manager** melakukan approve / reject  
+3. **Finance** memproses pembayaran  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Workflow:**
+
+Employee → Submit Request → Manager Approval → Finance Payment → Completed
+
+---
+
+## 👥 User Roles & Responsibilities
+
+### 👨‍💼 Employee
+- Mengajukan reimbursement
+- Melihat status pengajuan
+- Melihat detail approval & catatan
+
+### 👨‍💼 Manager
+- Menyetujui atau menolak reimbursement
+- Melihat riwayat persetujuan
+
+### 👩‍💼 Finance
+- Memproses pembayaran reimbursement
+- Mengunggah bukti pembayaran
+- Membuat laporan pengeluaran
+
+---
+
+## 🧭 Application Pages (V1)
+
+### 🧑‍💻 Employee Pages
+
+| Page | Description |
+|------|------------|
+| 🏠 Dashboard | Ringkasan status reimbursement (pending, approved, rejected) |
+| ➕ Submit Reimbursement | Form pengajuan baru (upload bukti, nominal, kategori) |
+| 📋 My Reimbursements | Daftar semua reimbursement yang diajukan |
+| 📑 Detail Reimbursement | Detail status + catatan dari manager & finance |
+
+---
+
+### 💰 Finance Pages
+
+| Page | Description |
+|------|------------|
+| 🏠 Dashboard | Summary pengeluaran bulan ini & request yang sudah dibayar |
+| 💸 Payment Queue | Daftar reimbursement yang siap dibayar |
+| 📤 Upload Proof | Upload bukti pembayaran (transfer slip, invoice, dll) |
+| 📊 Reports | Laporan reimbursement per karyawan/divisi/bulan |
+
+---
+
+### 🧑‍💼 Manager Pages
+
+| Page | Description |
+|------|------------|
+| 🏠 Dashboard | Summary request (pending, approved, rejected) |
+| ✅ Pending Approvals | List reimbursement menunggu persetujuan |
+| 📋 History | Riwayat approval/rejection |
+| 📑 Detail | Detail reimbursement + approve/reject action |
+
+---
+
+## 🚧 Development Status
+
+| Module | Status |
+|--------|--------|
+| Employee | ✅ Completed (Dashboard in progress) |
+| Finance | 🔄 In Development |
+| Manager | ⏳ Not started |
+
+---
+
+## 🔌 Backend API
+
+UI ini terhubung dengan REST API yang telah tersedia untuk:
+
+- Authentication & Authorization
+- Reimbursement submission
+- Approval workflow
+- Payment processing
+- Reporting
+
+---
+
+## 🛠 Tech Stack
+
+*(Edit sesuai stack yang digunakan)*
+
+- React.js
+- Tailwind CSS
+- Axios / Fetch API
+- JWT Authentication
+
+---
+
+## 🚀 Current Focus
+
+Saat ini pengembangan difokuskan pada:
+
+✔ Finance Payment Workflow  
+✔ Penyempurnaan Employee Dashboard  
+✔ Integrasi API & state management  
+
+---
+
+## 📌 Version
+
+**V1 Scope:**
+- Multi-role reimbursement workflow
+- Approval & payment flow
+- Basic finance reporting
