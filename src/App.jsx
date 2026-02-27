@@ -14,6 +14,9 @@ import CreateReimbursement from './pages/employee/CreateReimburstment'
 import EmployeeDashboard from './pages/employee/EmployeeDashboard'
 import ReimbursementList from './pages/employee/ReimburstmentList'
 import ReimburstmentListDetail from './pages/employee/ReimburstmentListDetail'
+import FinanceDashboard from './pages/finance/FinanceDashboard'
+import PaymentQueue from './pages/finance/PaymentQueue'
+import ReportsFinance from './pages/finance/ReportsFinance'
 
 function App() {
   return (
@@ -53,7 +56,11 @@ function App() {
             </RoleRoute>
           </ProtectedRoute>
         }
-      />
+      >
+        <Route path="dashboard" element={<FinanceDashboard />} />
+        <Route path="payment-queue" element={<PaymentQueue />} />
+        <Route path="reports" element={<ReportsFinance />} />
+      </Route>
 
       {/* fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
