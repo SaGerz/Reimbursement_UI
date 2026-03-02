@@ -5,7 +5,7 @@ import FinanceSidebar from '../components/sidebar/FinanceSidebar'
 function FinanceLayout() {
   return (
      <div className='flex min-h-screen' >
-        <aside className='w-64 bg-gray-800 text-white p-4' >
+        <aside className="w-64 bg-gray-800 text-white p-6 border-r border-gray-700">          
           <FinanceSidebar /> 
         </aside>
 
