@@ -1,22 +1,41 @@
-import { Link } from "react-router-dom";
+import { LayoutDashboard, NotebookPen, FilePlus2 } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 const EmployeSidebar = () => {
+    const linkStyle = "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors";
+    const activeStyle = "bg-gray-700 text-white";
+    const inactiveStyle = "text-gray-300 hover:bg-gray-700 hover:text-white" 
+    
     return (
         <>
-            <h1 className="font-bold text-lg">Employee</h1>
+            <div className="mb-8 text-xl font-bold tracking-wide">
+                💼 Employee Panel
+            </div>
+            
+            <nav className="space-y-2 flex flex-col">                
+                <NavLink to="/employee/dashboard" className={
+                        ({isActive}) => 
+                            `${linkStyle} ${isActive ? activeStyle : inactiveStyle}`
+                    }>
+                        <LayoutDashboard size={18} />                
+                        Dashboard
+                </NavLink>
 
-            <nav className="mt-4 space-y-2 flex flex-col">
-                <Link to="/employee/dashboard" className="hover:underline">
-                    Dashboard
-                </Link>
-
-                <Link to="/employee/reimburstment" className="hover:underline">
+                <NavLink to="/employee/reimburstment" end className={
+                    ({isActive}) => 
+                        `${linkStyle} ${isActive ? activeStyle : inactiveStyle}`
+                }>
+                    <NotebookPen size={18} />   
                     My Reimbursements
-                </Link>
+                </NavLink>
 
-                <Link to="/employee/reimburstment/new" className="hover:underline">
+                <NavLink to="/employee/reimburstment/new" className={
+                    ({isActive}) => 
+                        `${linkStyle} ${isActive ? activeStyle : inactiveStyle}`
+                }>
+                    <FilePlus2 size={18} /> 
                     Submit Reimbursement
-                </Link>
+                </NavLink>
             </nav>
         </>
     );
