@@ -1,32 +1,37 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import formatHelper from "../../utils/formatHelper";
+import PaymentProofModal from "../../components/modal/PaymentProofModal";
 
 const PaymentQueue = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchPaymentQueue = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get(
-          "/Reimburstment/finance/payment-queue"
-        );
-        setData(res.data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [selected, setSelected] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // 🔥 pindah keluar supaya bisa dipanggil ulang
+  const fetchPaymentQueue = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get(
+        "/Reimburstment/finance/payment-queue"
+      );
+      setData(res.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchPaymentQueue();
   }, []);
 
-  const handleProcessPayment = (id) => {
-    console.log("Process payment for ID:", id);
-    // nanti disini bisa buka modal upload bukti transfer
+  const handleProcessPayment = (item) => {
+    setSelected(item);       // kirim full object biar modal bisa tampilkan info
+    setIsModalOpen(true);
   };
 
   return (
@@ -60,13 +65,9 @@ const PaymentQueue = () => {
                     {formatHelper.formatDate(item.approveAt)}
                   </td>
 
-                  <td className="p-2">
-                    {item.employeeName}
-                  </td>
+                  <td className="p-2">{item.employeeName}</td>
 
-                  <td className="p-2">
-                    {item.categoryName}
-                  </td>
+                  <td className="p-2">{item.categoryName}</td>
 
                   <td className="p-2 font-medium">
                     {formatHelper.formatCurrency(item.amount)}
@@ -74,10 +75,8 @@ const PaymentQueue = () => {
 
                   <td className="p-2">
                     <button
-                      onClick={() =>
-                        handleProcessPayment(item.reimbursementId)
-                      }
-                      className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                      onClick={() => handleProcessPayment(item)}
+                      className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer"
                     >
                       Process
                     </button>
@@ -97,6 +96,14 @@ const PaymentQueue = () => {
           </tbody>
         </table>
       )}
+
+      {/* 🔥 Modal */}
+      <PaymentProofModal
+        isOpen={isModalOpen}
+        reimbursement={selected}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={fetchPaymentQueue} // ⬅️ ini penting
+      />
     </div>
   );
 };
