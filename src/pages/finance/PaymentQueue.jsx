@@ -10,7 +10,6 @@ const PaymentQueue = () => {
   const [selected, setSelected] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 🔥 pindah keluar supaya bisa dipanggil ulang
   const fetchPaymentQueue = async () => {
     try {
       setLoading(true);
@@ -102,7 +101,7 @@ const PaymentQueue = () => {
         isOpen={isModalOpen}
         reimbursement={selected}
         onClose={() => setIsModalOpen(false)}
-        onSuccess={fetchPaymentQueue} // ⬅️ ini penting
+        onSuccess={fetchPaymentQueue}
       />
     </div>
   );
