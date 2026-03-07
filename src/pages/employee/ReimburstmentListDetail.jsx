@@ -24,6 +24,9 @@ const ReimburstmentListDetail = () => {
     const imageUrl = data?.receiptAttachment ? 
         `http://localhost:5279/${data.receiptAttachment.replace(/\\/g, '/')}` : null;
 
+    const paymentUrl = data?.paymentAttachment ? 
+        `http://localhost:5279/${data.paymentAttachment.replace(/\\/g, '/')}` : null;
+
     const statusColor = {
         Pending: "bg-yellow-100 text-yellow-700",
         Approved: "bg-green-100 text-green-700",
@@ -67,6 +70,16 @@ const ReimburstmentListDetail = () => {
           <span className="font-semibold">Expense Date</span>
           <span>{formatHelper.formatDate(data.expenseDate)}</span>
         </div>
+        <div className="flex justify-between border-b pb-2">
+          <span className="font-semibold">Paid By</span>
+          <span>{data.paidByName ? data.paidByName : "-"}</span>
+        </div>
+        <div className="flex justify-between border-b pb-2">
+          <span className="font-semibold">Paid Date</span>
+          <span>
+            {data.paidDate ? formatHelper.formatDate(data.paidDate) : "-"}
+          </span>        
+        </div>
 
         <div className="flex justify-between items-center">
           <span className="font-semibold">Status</span>
@@ -94,7 +107,25 @@ const ReimburstmentListDetail = () => {
           <img
             src={imageUrl}
             alt="Receipt"
-            onClick={() => setZoom(true)}
+            onClick={() => setZoom(imageUrl)}
+            className="cursor-zoom-in rounded-xl border shadow-sm max-h-80 hover:opacity-90 transition"
+          />
+
+          <p className="text-sm text-gray-400 mt-1">
+            Click image to zoom
+          </p>
+        </div>
+      )}
+
+      {/* Payment Url */}
+      {paymentUrl && (
+        <div className="mt-6">
+          <p className="font-semibold mb-2">Payment Proof</p>
+
+          <img
+            src={paymentUrl}
+            alt="Payment Proof"
+            onClick={() => setZoom(paymentUrl)}
             className="cursor-zoom-in rounded-xl border shadow-sm max-h-80 hover:opacity-90 transition"
           />
 
@@ -111,7 +142,7 @@ const ReimburstmentListDetail = () => {
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
         >
           <img
-            src={imageUrl}
+            src={zoom}
             alt="Zoomed Receipt"
             className="max-h-[90%] max-w-[90%] rounded-lg shadow-lg"
           />
