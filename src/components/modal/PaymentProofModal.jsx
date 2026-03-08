@@ -6,6 +6,7 @@ const PaymentProofModal = ({ isOpen, onClose, reimbursement, onSuccess }) => {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [zoom, setZoom] = useState(false);
 
   // Reset state setiap modal dibuka / ditutup
   useEffect(() => {
@@ -25,6 +26,9 @@ const PaymentProofModal = ({ isOpen, onClose, reimbursement, onSuccess }) => {
       setPreview(URL.createObjectURL(selectedFile));
     }
   };
+
+  const receiptAttachment = reimbursement.receiptAttachment ? 
+  `http://localhost:5279/${reimbursement.receiptAttachment.replace(/\\/g, '/')}` : null;
 
   const handleSubmit = async () => {
     if (!file) {
@@ -80,6 +84,18 @@ const PaymentProofModal = ({ isOpen, onClose, reimbursement, onSuccess }) => {
             <span className="font-medium">Amount:</span>{" "}
             {formatHelper.formatCurrency(reimbursement.amount)}
           </p>
+          <p>
+            <span className="font-medium">Recipt:</span>
+            <img 
+              src={receiptAttachment} 
+              alt="receiptAttachment" 
+              onClick={() => setZoom(receiptAttachment)}
+              className="cursor-zoom-in rounded-xl border shadow-sm max-h-45 hover:opacity-90 transition"
+             />
+          </p>
+          <p className="text-sm text-gray-400 mt-1">
+            Click image to zoom
+          </p>
         </div>
 
         {/* Upload Section */}
@@ -129,6 +145,20 @@ const PaymentProofModal = ({ isOpen, onClose, reimbursement, onSuccess }) => {
           </button>
         </div>
       </div>
+
+      {/* Zoom Modal */}
+      {zoom && (
+        <div
+          onClick={() => setZoom(false)}
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+        >
+          <img
+            src={zoom}
+            alt="Zoomed Receipt"
+            className="max-h-[90%] max-w-[90%] rounded-lg shadow-lg"
+          />
+        </div>
+      )}
     </div>
   );
 };
