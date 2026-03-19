@@ -85,6 +85,10 @@ const PaymentProofModal = ({ isOpen, onClose, reimbursement, onSuccess }) => {
             {formatHelper.formatCurrency(reimbursement.amount)}
           </p>
           <p>
+            <span className="font-medium">Description:</span>{" "}
+            {reimbursement.descriptionReimburstment}
+          </p>
+          <p>
             <span className="font-medium">Recipt:</span>
             <img 
               src={receiptAttachment} 
