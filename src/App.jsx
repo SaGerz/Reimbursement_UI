@@ -17,6 +17,10 @@ import ReimburstmentListDetail from './pages/employee/ReimburstmentListDetail'
 import FinanceDashboard from './pages/finance/FinanceDashboard'
 import PaymentQueue from './pages/finance/PaymentQueue'
 import ReportsFinance from './pages/finance/ReportsFinance'
+import ManagerLayout from './layouts/ManagerLayout'
+import ManagerDashboard from './pages/manager/ManagerDashboard'
+import PendingReiburstment from './pages/manager/PendingReiburstment'
+import { ApprovalHistory } from './pages/manager/ApprovalHistory'
 
 function App() {
   return (
@@ -60,6 +64,22 @@ function App() {
         <Route path="dashboard" element={<FinanceDashboard />} />
         <Route path="payment-queue" element={<PaymentQueue />} />
         <Route path="reports" element={<ReportsFinance />} />
+      </Route>
+
+      {/* Manager */}
+      <Route
+        path="/manager"
+        element={
+          <ProtectedRoute>
+            <RoleRoute allowedRole="Manager">
+              <ManagerLayout />
+            </RoleRoute>
+          </ProtectedRoute>
+        }
+      >
+        <Route path="dashboard" element={<ManagerDashboard />} />
+        <Route path="reimburstment" element={<PendingReiburstment />} />
+        <Route path="approval-history" element={<ApprovalHistory />} />
       </Route>
 
       {/* fallback */}
