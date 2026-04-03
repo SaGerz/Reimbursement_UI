@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import api from '../../api/axios';
 import formatHelper from '../../utils/formatHelper';
+import ApprovalModal from '../../components/modal/ApprovaModal';
 
 const PendingReiburstment = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [actionType, setActionType] = useState("");
 
   const fetchPendingReimburstment = async () => {
     try {
@@ -67,11 +71,27 @@ const PendingReiburstment = () => {
                       </span>
                     </td>
 
-                    <td className="p-2">
+                   <td className="p-2 flex gap-2">
                       <button
-                        className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer"
+                        onClick={() => {
+                          setSelected(item);
+                          setActionType("approve");
+                          setIsModalOpen(true);
+                        }}
+                        className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
                       >
-                        Process
+                        Approve
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setSelected(item);
+                          setActionType("reject");
+                          setIsModalOpen(true);
+                        }}
+                        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                      >
+                        Reject
                       </button>
                     </td>
                   </tr>
@@ -89,6 +109,14 @@ const PendingReiburstment = () => {
           </tbody>
       </table>
       )}
+
+      <ApprovalModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        reimbursement={selected}
+        actionType={actionType}
+        onSuccess={fetchPendingReimburstment}
+      />
     </div>
   )
 }
