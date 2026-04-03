@@ -78,7 +78,7 @@ const PendingReiburstment = () => {
                           setActionType("approve");
                           setIsModalOpen(true);
                         }}
-                        className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                        className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer"
                       >
                         Approve
                       </button>
@@ -89,7 +89,7 @@ const PendingReiburstment = () => {
                           setActionType("reject");
                           setIsModalOpen(true);
                         }}
-                        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer"
                       >
                         Reject
                       </button>
