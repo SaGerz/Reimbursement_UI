@@ -1,10 +1,16 @@
 import { LayoutDashboard, NotebookPen, FilePlus2 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const EmployeSidebar = () => {
     const linkStyle = "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors";
     const activeStyle = "bg-gray-700 text-white";
     const inactiveStyle = "text-gray-300 hover:bg-gray-700 hover:text-white" 
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate("/login");
+    };
     
     return (
         <>
@@ -36,6 +42,13 @@ const EmployeSidebar = () => {
                     <FilePlus2 size={18} /> 
                     Submit Reimbursement
                 </NavLink>
+
+                <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg text-red-400 hover:bg-red-600 hover:text-white transition-colors w-full cursor-pointer"
+                >
+                    Logout
+                </button>
             </nav>
         </>
     );
