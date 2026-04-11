@@ -102,22 +102,58 @@ export const ApprovalHistory = () => {
                   </tbody>
               </table>
             )}
-            <div className="flex justify-between mt-4">
-              <button 
+            <div className="flex items-center justify-between mt-4">
+            {/* Info */}
+            <div className="text-sm text-gray-600">
+              Page {page} of {totalPages}
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex items-center gap-1">
+
+              {/* Prev */}
+              <button
                 disabled={page === 1}
                 onClick={() => setPage(page - 1)}
+                className={`px-3 py-1 rounded border text-sm cursor-pointer ${
+                  page === 1
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-white hover:bg-gray-100"
+                }`}
               >
                 Prev
               </button>
 
-              <span>Page {page} of {totalPages}</span>
+              {/* Page Numbers */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .slice(Math.max(0, page - 3), page + 2) 
+                .map((p) => (
+                  <button
+                    key={p}
+                    onClick={() => setPage(p)}
+                    className={`px-3 py-1 rounded border text-sm cursor-pointer ${
+                      p === page
+                        ? "bg-blue-500 text-white"
+                        : "bg-white hover:bg-gray-100"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
 
-              <button 
+              {/* Next */}
+              <button
                 disabled={page === totalPages}
                 onClick={() => setPage(page + 1)}
+                className={`px-3 py-1 rounded border text-sm cursor-pointer ${
+                  page === totalPages
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-white hover:bg-gray-100"
+                }`}
               >
                 Next
               </button>
+            </div>
           </div>
         </div>
   )
