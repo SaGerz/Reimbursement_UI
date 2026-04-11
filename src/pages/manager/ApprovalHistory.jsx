@@ -3,6 +3,9 @@ import api from '../../api/axios';
 import formatHelper from '../../utils/formatHelper';
 
 export const ApprovalHistory = () => {
+  const [page, setPage] = useState(1);;
+  const [pageSize] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
@@ -22,8 +25,9 @@ export const ApprovalHistory = () => {
   const fetchApprovalHistory = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/Reimburstment/manager/approval-histories');
-      setData(res.data);
+      const res = await api.get(`/Reimburstment/manager/approval-histories?page=${page}&pageSize=${pageSize}`);
+      setData(res.data.data);
+      setTotalPages(res.data.totalPages);
     } catch (error) {
       console.error(error);      
     } finally {
@@ -33,7 +37,7 @@ export const ApprovalHistory = () => {
 
   useEffect(() => {
     fetchApprovalHistory();
-  }, [])
+  }, [page])
 
   return (
     <div className='bg-white p-6 rounded-shadow' >
@@ -98,6 +102,23 @@ export const ApprovalHistory = () => {
                   </tbody>
               </table>
             )}
+            <div className="flex justify-between mt-4">
+              <button 
+                disabled={page === 1}
+                onClick={() => setPage(page - 1)}
+              >
+                Prev
+              </button>
+
+              <span>Page {page} of {totalPages}</span>
+
+              <button 
+                disabled={page === totalPages}
+                onClick={() => setPage(page + 1)}
+              >
+                Next
+              </button>
+          </div>
         </div>
   )
 }
