@@ -5,6 +5,9 @@ import formatHelper from "../../utils/formatHelper.js"
 
 const ReimbursementList = () => {
     const [data, setData] = useState([]);
+    const [page, setPage] = useState(1);
+    const [pageSize] = useState(10);
+    const [totalPages, setTotalPages] = useState(0);
     const navigate = useNavigate();
 
     const statusStyle = (status) => {
@@ -24,15 +27,16 @@ const ReimbursementList = () => {
     useEffect(() => {
       const fetchReimburstment = async () => {
         try {
-          const res = await api.get('/Reimburstment')
-          setData(res.data);
+          const res = await api.get(`/Reimburstment?page=${page}&pageSize=${pageSize}`)
+          setData(res.data.data);
+          setTotalPages(res.data.totalPages);
         } catch (error) {
           console.error(error);
         }
       }
 
       fetchReimburstment();
-    }, [])
+    }, [page])
 
 
     return(
@@ -80,6 +84,55 @@ const ReimbursementList = () => {
             }
           </tbody>
         </table>
+
+        {/* Pagination Start */}
+        <div className="flex items-center justify-between mt-4">
+          <div className="text-sm text-gray-600">
+            Page {page} of {totalPages}
+          </div>
+
+          <div className="flex items-center gap-1">
+            <button
+              disabled={page === 1}
+                onClick={() => setPage(page - 1)}
+                className={`px-3 py-1 rounded border text-sm cursor-pointer ${
+                  page === 1
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-white hover:bg-gray-100"
+              }`}
+            >
+              Prev
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+            .slice(Math.max(0, page - 3), page + 2) 
+            .map((p) => (
+              <button
+                key={p}
+                onClick={() => setPage(p)}
+                className={`px-3 py-1 rounded border text-sm cursor-pointer ${
+                  p === page
+                    ? "bg-blue-500 text-white"
+                    : "bg-white hover:bg-gray-100"
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+
+            <button
+              disabled={page === totalPages}
+                onClick={() => setPage(page + 1)}
+                className={`px-3 py-1 rounded border text-sm cursor-pointer ${
+                  page === totalPages
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-white hover:bg-gray-100"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     );
 };
