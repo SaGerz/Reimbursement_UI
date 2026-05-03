@@ -17,6 +17,20 @@ const EmployeeDashboard = () => {
     }
   };
 
+  const statusStyle = (status) => {
+    switch(status)
+    {
+      case "Approved":
+        return "bg-green-100 text-green-700"
+      
+      case "Rejected":
+        return "bg-red-100 text-red-700"
+      
+      default:
+        return "bg-yellow-100 text-yellow-700"
+    }
+  }
+
   useEffect(() => {
     fetchDashboard();
   }, []);
@@ -73,6 +87,47 @@ const EmployeeDashboard = () => {
             <p className="text-2xl font-bold mt-2">{card.value}</p>
           </div>
         ))}
+      </div>
+      
+      <div className="mt-5">
+        <table className="w-full border" >
+          <thead className="bg-gray-100 text-left" >
+            <tr>
+              <th className="p-2">Tanggal</th>
+              <th className="p-2">Kategori</th>
+              <th className="p-2">Deskripsi</th>
+              <th className="p-2">Nominal</th>
+              <th className="p-2">Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {
+              data.recent.map((item) => (
+                <tr
+                  key={item.reimbursementId}
+                  className="border-t hover:bg-gray-100"
+                >
+                  <td className="p-2">
+                    {formatHelper.formatDate(item.createAt || item.createAt)}
+                  </td>
+                  <td className="p-2">{item.categoryName}</td>
+                  <td className="p-2">{item.description}</td>
+                  <td className="p-2 font-medium">{formatHelper.formatCurrency(item.amount)}</td>
+                  <td className="p-2">
+                    <span
+                      className={`px-2 py-1 text-sm rounded ${statusStyle(
+                      item.status
+                    )}`}
+                    >
+                      {item.status}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
       </div>
     </div>
   );
