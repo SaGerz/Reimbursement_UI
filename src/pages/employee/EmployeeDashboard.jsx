@@ -103,28 +103,40 @@ const EmployeeDashboard = () => {
 
           <tbody>
             {
-              data.recent.map((item) => (
-                <tr
-                  key={item.reimbursementId}
-                  className="border-t hover:bg-gray-100"
-                >
-                  <td className="p-2">
-                    {formatHelper.formatDate(item.createAt || item.createAt)}
-                  </td>
-                  <td className="p-2">{item.categoryName}</td>
-                  <td className="p-2">{item.description}</td>
-                  <td className="p-2 font-medium">{formatHelper.formatCurrency(item.amount)}</td>
-                  <td className="p-2">
-                    <span
-                      className={`px-2 py-1 text-sm rounded ${statusStyle(
-                      item.status
-                    )}`}
-                    >
-                      {item.status}
-                    </span>
-                  </td>
-                </tr>
-              ))
+              data > 0 ? (
+
+                data.recent.map((item) => (
+                  <tr
+                    key={item.reimbursementId}
+                    className="border-t hover:bg-gray-100"
+                  >
+                    <td className="p-2">
+                      {formatHelper.formatDate(item.createAt || item.createAt)}
+                    </td>
+                    <td className="p-2">{item.categoryName}</td>
+                    <td className="p-2">{item.description}</td>
+                    <td className="p-2 font-medium">{formatHelper.formatCurrency(item.amount)}</td>
+                    <td className="p-2">
+                      <span
+                        className={`px-2 py-1 text-sm rounded ${statusStyle(
+                        item.status
+                      )}`}
+                      >
+                        {item.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                <td
+                  colSpan="5"
+                  className="text-center p-4 text-gray-500"
+                  >
+                  No data in new reimbursement
+                </td>
+              </tr> 
+              )
             }
           </tbody>
         </table>
