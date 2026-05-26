@@ -16,7 +16,7 @@ const EmployeeDashboard = () => {
       setLoading(false);
     }
   };
-
+  
   const statusStyle = (status) => {
     switch(status)
     {
@@ -103,7 +103,7 @@ const EmployeeDashboard = () => {
 
           <tbody>
             {
-              data > 0 ? (
+              data && data.recent && data.recent.length > 0 ? (
 
                 data.recent.map((item) => (
                   <tr
