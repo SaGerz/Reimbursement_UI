@@ -28,7 +28,12 @@ const Login = () =>  {
             navigate(redirectByrole(res.data.role));
 
         } catch (err) {
-            setError("Email atau Password salah!");
+            if(err.response && err.response.status == 401)
+            {
+                setError("Email atau Password salah!");
+            } else {
+                setError("Internal Server Error, Harap hubungi IT...")
+            }
         } finally {
             setLoading(false);
         }
