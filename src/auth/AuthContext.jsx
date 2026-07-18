@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { isTokenExpired } from "./jwt";
 
 const AuthContext = createContext();
 
@@ -13,7 +14,13 @@ export const AuthProvider = ({children}) => {
 
         if(token && role)
         {
-            setUser({role, fullName});
+            if(isTokenExpired) 
+            {
+                localStorage.clear()
+            } else {
+                setUser({role, fullName});
+            }
+
         }
         
         setLoading(false);
