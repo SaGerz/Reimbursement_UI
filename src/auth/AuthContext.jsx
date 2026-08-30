@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { isTokenExpired } from "./jwt";
+import api from "../api/axios";
 
 const AuthContext = createContext();
 
@@ -8,39 +9,35 @@ export const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        const role = localStorage.getItem("role");
-        const fullName = localStorage.getItem("fullname");
-
-        if(token && role)
-        {
-            if(isTokenExpired) 
-            {
-                localStorage.clear()
-            } else {
-                setUser({role, fullName});
+        const checkSession = async () => {
+            try {
+                const res = await api.get("/Auth/me");
+                setUser({
+                    role: res.data.role,
+                    fullName: res.data.fullName
+                })
+            } catch (error) {
+                setUser(null);
+            } finally {
+                setLoading(false);
             }
-
-        }
-        
-        setLoading(false);
+        };
+        checkSession();
     }, []);
 
-    const login  = (data) => {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.role);
-        localStorage.setItem("fullName", data.fullName);
-        localStorage.setItem("expiresAt", data.expiresAt);
-        
+    const login = (data) => {
         setUser({
             role: data.role,
             fullName: data.fullName,
         });
     };
 
-    const logout = () => {
-        localStorage.clear();
-        setUser(null);
+    const logout = async () => {
+        try {
+            await api.post("/Auth/logout");
+        } finally {
+            setUser(null);
+        }
     }
 
 

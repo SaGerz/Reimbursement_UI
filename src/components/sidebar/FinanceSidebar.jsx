@@ -1,16 +1,16 @@
 import { FileText, LayoutDashboard, Wallet } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { auth } from "../../auth/AuthContext";
 
 const FinanceSidebar = () => {
     const linkStyle = "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors";
     const activeStyle = "bg-gray-700 text-white";
-    const inactiveStyle = "text-gray-300 hover:bg-gray-700 hover:text-white"    
-    const navigate = useNavigate();
+    const inactiveStyle = "text-gray-300 hover:bg-gray-700 hover:text-white"   
+    const {logout} = auth();
 
     const handleLogout = () => {
-        localStorage.clear();
-        navigate('/login');
-    }
+        logout();
+    };
 
     return (
         <>
