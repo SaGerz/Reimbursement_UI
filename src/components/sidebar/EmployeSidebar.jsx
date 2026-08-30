@@ -1,15 +1,16 @@
 import { LayoutDashboard, NotebookPen, FilePlus2 } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { auth } from "../../auth/AuthContext";
 
 const EmployeSidebar = () => {
     const linkStyle = "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors";
     const activeStyle = "bg-gray-700 text-white";
     const inactiveStyle = "text-gray-300 hover:bg-gray-700 hover:text-white" 
     const navigate = useNavigate();
+    const {logout} = auth();
 
     const handleLogout = () => {
-        localStorage.clear();
-        navigate("/login");
+        logout();
     };
     
     return (
